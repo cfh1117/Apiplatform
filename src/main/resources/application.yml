@@ -1,0 +1,35 @@
+server:
+  port: 8180
+  servlet:
+      context-path: /lemon
+spring:
+  freemarker: 
+      #设置模板后缀名
+      suffix: .ftl
+      #模板最终渲染的文件格式
+      content-type: text/html
+      #设置编码
+      charset: UTF-8
+      #不缓存
+      cache: false
+      #模板文件的加载路径
+      template-loader-path: classpath:/static/template
+      #往freemarker模板中导入request对象
+      request-context-attribute: request
+    #数据源配置
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver 
+      url: jdbc:mysql://localhost:3306/api-runner?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+      username: root
+      password: root
+#mybatis配置 
+mybatis-plus: 
+  #mapper文件加载路径
+  mapper-locations: mapper/*.xml
+  #别名对应的实体对象扫描路径
+  type-aliases-package: com.lemon.api.runner.pojo
+#日志
+logging:
+  level:
+    root: info
+    com.lemon.api.runner.dao: trace

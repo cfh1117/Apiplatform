@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lemon.api.runner.dao.UserMapper">
+    <insert id="add" parameterType="user">
+    	insert into user(username,password,regtime) values(#{username},#{password},#{regtime});
+    </insert>
+    
+    <select id="find" parameterType="user" resultType="user">
+    	select id,username,password,regtime from user where username=#{username}
+    </select>
+</mapper>

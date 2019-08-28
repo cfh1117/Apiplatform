@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lemon.api.runner.dao.ApiClassificationMapper">
+    <insert id="add" parameterType="apiClassification" useGeneratedKeys="true" keyProperty="id">
+    	insert into api_classification(project_id,name,description,create_user,create_time) 
+    	values(#{projectId},#{name},#{description},#{createUser},#{createTime});
+    </insert>
+    <select id="findAll" parameterType="string" resultMap="apiClassificationResultMap">
+    	SELECT
+			t1.id,
+			t1. NAME,
+			t2.id as apiId,
+			t2. NAME as apiName
+		FROM
+			api_classification t1
+		LEFT JOIN api t2 ON t1.id = t2.api_classification_id where t1.project_id=#{projectId};
+    </select>
+    <resultMap type="apiClassification" id="apiClassificationResultMap">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<collection ofType="ApiMenuVO" property="apiMenuVOs">
+			<result column="apiId" property="id"/>
+			<result column="apiName" property="name"/>
+		</collection>
+	</resultMap>
+	
+	<select id="findAllByApiId" parameterType="string" resultType="apiClassification">
+		SELECT
+			t3.id,
+			t3. NAME
+		FROM
+			api_classification t3
+		WHERE
+			t3.project_id = (
+				SELECT
+					t2.project_id
+				FROM
+					api t1
+				INNER JOIN api_classification t2 ON t1.api_classification_id = t2.id
+				WHERE
+					t1.id = #{apiId}
+			);
+	
+	</select>
+	
+	
+</mapper>
